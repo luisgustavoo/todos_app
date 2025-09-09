@@ -55,11 +55,12 @@ class TodoViewModel extends ChangeNotifier {
     switch (result) {
       case Ok():
         notifyListeners();
+        return const Result.ok(null);
       case Error():
         _log.warning('Erro ao listar as tarefas error: ${result.error}');
+        notifyListeners();
+        return Result.error(result.error);
     }
-
-    return result;
   }
 
   Future<Result<void>> _saveTodo(
@@ -80,6 +81,8 @@ class TodoViewModel extends ChangeNotifier {
         await _find();
       case Error():
         _log.warning('Erro ao criar tarefa error: ${result.error}');
+        notifyListeners();
+        return Result.error(result.error);
     }
 
     return result;
@@ -106,6 +109,8 @@ class TodoViewModel extends ChangeNotifier {
         animatedList?.removeItem(index, removedItemBuilder);
       case Error():
         _log.warning('Erro ao deletar tarefa error: ${result.error}');
+        notifyListeners();
+        return Result.error(result.error);
     }
 
     return result;
@@ -135,6 +140,8 @@ class TodoViewModel extends ChangeNotifier {
         await _find();
       case Error():
         _log.warning('Erro ao atualizar tarefa error: ${result.error}');
+        notifyListeners();
+        return Result.error(result.error);
     }
 
     return result;

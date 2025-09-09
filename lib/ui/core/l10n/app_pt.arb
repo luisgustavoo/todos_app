@@ -44,8 +44,12 @@
   "@noTasksCompleted": {
     "description": "Nenhuma tarefa concluída."
   },
-    "noTasksRegistered": "Nenhuma tarefa cadastrada.",
+  "noTasksRegistered": "Nenhuma tarefa cadastrada.",
   "@noTasksRegistered": {
     "description": "Nenhuma tarefa cadastrada."
-  }  
+  },
+  "weWereUnableToLoadYourTasks": "Não foi possível carregar suas tarefas.",
+  "@weWereUnableToLoadYourTasks": {
+    "description": "Não foi possível carregar suas tarefas."
+  }
 }

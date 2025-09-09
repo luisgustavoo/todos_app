@@ -43,4 +43,8 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get noTasksRegistered => 'Nenhuma tarefa cadastrada.';
+
+  @override
+  String get weWereUnableToLoadYourTasks =>
+      'Não foi possível carregar suas tarefas.';
 }

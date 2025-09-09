@@ -21,22 +21,34 @@ class TodoRepositoryLocal implements TodoRepository {
   List<Todo> get todos => _cache;
 
   @override
-  Future<Result<void>> saveTodo(Todo todo) {
-    final todoIndex = todos.indexWhere((t) => t.id == todo.id);
-    if (todoIndex >= 0) {
-      _cache[todoIndex] = todo;
-    } else {
-      _cache.add(todo);
+  Future<Result<void>> saveTodo(Todo todo) async {
+    final result = await _localDataService.saveTodo(todo);
+    switch (result) {
+      case Ok():
+        final todoIndex = todos.indexWhere((t) => t.id == todo.id);
+        if (todoIndex >= 0) {
+          _cache[todoIndex] = todo;
+        } else {
+          _cache.add(todo);
+        }
+        return const Result.ok(null);
+      case Error():
+        return Result.error(result.error);
     }
-    return _localDataService.saveTodo(todo);
   }
 
   @override
-  Future<Result<void>> delete(String id) {
-    _cache.removeWhere(
-      (todo) => todo.id == id,
-    );
-    return _localDataService.deleteTodo(id);
+  Future<Result<void>> delete(String id) async {
+    final result = await _localDataService.deleteTodo(id);
+    switch (result) {
+      case Ok():
+        _cache.removeWhere(
+          (todo) => todo.id == id,
+        );
+        return const Result.ok(null);
+      case Error():
+        return Result.error(result.error);
+    }
   }
 
   @override
@@ -46,7 +58,7 @@ class TodoRepositoryLocal implements TodoRepository {
       case Ok<List<Todo>>():
         _cache = [...result.value];
       case Error():
-      // Do nothing
+        return result;
     }
     return result;
   }

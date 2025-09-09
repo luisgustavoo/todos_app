@@ -29,7 +29,8 @@ class _TodoScreenState extends State<TodoScreen> {
     _listKey = GlobalKey<AnimatedListState>();
     _viewModel.saveTodo.addListener(_onSave);
     _viewModel.updateTodo.addListener(_onUpdate);
-    _viewModel.deleteTodo.addListener(_onUpdate);
+    _viewModel.deleteTodo.addListener(_onDelete);
+    _viewModel.find.addListener(_onFind);
   }
 
   @override
@@ -39,15 +40,18 @@ class _TodoScreenState extends State<TodoScreen> {
     _viewModel.saveTodo.addListener(_onSave);
     _viewModel.updateTodo.removeListener(_onUpdate);
     _viewModel.updateTodo.addListener(_onUpdate);
-    _viewModel.deleteTodo.removeListener(_onUpdate);
-    _viewModel.deleteTodo.addListener(_onUpdate);
+    _viewModel.deleteTodo.removeListener(_onDelete);
+    _viewModel.deleteTodo.addListener(_onDelete);
+    _viewModel.find.removeListener(_onFind);
+    _viewModel.find.addListener(_onFind);
   }
 
   @override
   void dispose() {
     _viewModel.saveTodo.removeListener(_onSave);
     _viewModel.updateTodo.removeListener(_onUpdate);
-    _viewModel.deleteTodo.removeListener(_onUpdate);
+    _viewModel.deleteTodo.removeListener(_onDelete);
+    _viewModel.find.removeListener(_onFind);
     super.dispose();
   }
 
@@ -192,6 +196,21 @@ class _TodoScreenState extends State<TodoScreen> {
         (
           todo: Todo.create(description: description),
           animatedList: _animatedList,
+        ),
+      );
+    }
+  }
+
+  void _onFind() {
+    if (_viewModel.find.error) {
+      _viewModel.find.clearResult();
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            context.l10n.weWereUnableToLoadYourTasks,
+            style: const TextStyle(color: Colors.white),
+          ),
+          backgroundColor: Colors.red,
         ),
       );
     }

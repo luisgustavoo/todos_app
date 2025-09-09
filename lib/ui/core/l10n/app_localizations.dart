@@ -164,11 +164,17 @@ abstract class AppLocalizations {
   /// **'No tasks completed.'**
   String get noTasksCompleted;
 
-  /// No tasks registered.
+  /// Nenhuma tarefa cadastrada.
   ///
   /// In en, this message translates to:
-  /// **'No tasks registered.'**
+  /// **'Nenhuma tarefa cadastrada.'**
   String get noTasksRegistered;
+
+  /// We were unable to load your tasks.
+  ///
+  /// In en, this message translates to:
+  /// **'We were unable to load your tasks.'**
+  String get weWereUnableToLoadYourTasks;
 }
 
 class _AppLocalizationsDelegate

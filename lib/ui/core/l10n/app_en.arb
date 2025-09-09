@@ -44,8 +44,12 @@
   "@noTasksCompleted": {
     "description": "No tasks completed."
   },
-  "noTasksRegistered": "No tasks registered.",
+  "noTasksRegistered": "Nenhuma tarefa cadastrada.",
   "@noTasksRegistered": {
-    "description": "No tasks registered."
+    "description": "Nenhuma tarefa cadastrada."
+  },
+  "weWereUnableToLoadYourTasks": "We were unable to load your tasks.",
+  "@weWereUnableToLoadYourTasks": {
+    "description": "We were unable to load your tasks."
   }
 }

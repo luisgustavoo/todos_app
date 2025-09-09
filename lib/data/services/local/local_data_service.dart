@@ -52,15 +52,24 @@ class LocalDataService {
     required Todo todo,
     required List<Todo> todos,
   }) async {
-    final newTodos = [...todos];
-    final todoIndex = todos.indexWhere((t) => t.id == todo.id);
-    if (todoIndex >= 0) {
-      newTodos[todoIndex] = todo;
-    } else {
-      newTodos.add(todo);
+    try {
+      final newTodos = [...todos];
+      final todoIndex = todos.indexWhere((t) => t.id == todo.id);
+      if (todoIndex >= 0) {
+        newTodos[todoIndex] = todo;
+      } else {
+        newTodos.add(todo);
+      }
+      final result = await _sharedPreferences.setTodos(jsonEncode(newTodos));
+      switch (result) {
+        case Ok():
+          return const Result.ok(null);
+        case Error<void>():
+          return Result.error(result.error);
+      }
+    } on Exception catch (e) {
+      return Result.error(e);
     }
-    await _sharedPreferences.setTodos(jsonEncode(newTodos));
-    return const Result.ok(null);
   }
 
   Future<Result<List<Todo>>> _find({
@@ -102,10 +111,16 @@ class LocalDataService {
 
           if (todoIndex != -1) {
             todos.removeAt(todoIndex);
-            await _sharedPreferences.setTodos(jsonEncode(todos));
+            final result = await _sharedPreferences.setTodos(jsonEncode(todos));
+            switch (result) {
+              case Ok():
+                return const Result.ok(null);
+              case Error():
+                return Result.error(result.error);
+            }
+          } else {
+            return Result.error(Exception('Tarefa não localizada!'));
           }
-
-          return const Result.ok(null);
 
         case Error():
           return Result.error(result.error);
