@@ -15,22 +15,34 @@ class TodoViewModel extends ChangeNotifier {
   }) : _todoRepository = todoRepository {
     find = Command0(_find)..execute();
     saveTodo = Command1(_saveTodo);
+    deleteTodo = Command1(_deleteTodo);
     toggleStatus = Command1(_toggleStatus);
   }
 
   late final Command0<void> find;
-  late final Command1<void, Todo> saveTodo;
+  late final Command1<void, ({Todo todo, AnimatedListState? animatedList})>
+  saveTodo;
+  late final Command1<void, Todo> updateTodo;
+  late final Command1<
+    void,
+    ({
+      Todo todo,
+      AnimatedListState? animatedList,
+      Widget Function(BuildContext context, Animation<double> animation)
+      removedItemBuilder,
+    })
+  >
+  deleteTodo;
   late final Command1<void, TodoStatus> toggleStatus;
   final TodoRepository _todoRepository;
   final _log = Logger('TodoViewModel');
-  List<Todo> todos = [];
+  List<Todo> get todos => _todoRepository.todos;
   TodoStatus status = TodoStatus.all;
 
   Future<Result<void>> _find() async {
     final result = await _todoRepository.find(status);
     switch (result) {
       case Ok():
-        todos = [...result.value];
         notifyListeners();
       case Error():
         _log.warning('Erro ao listar as tarefas error: ${result.error}');
@@ -39,13 +51,49 @@ class TodoViewModel extends ChangeNotifier {
     return result;
   }
 
-  Future<Result<void>> _saveTodo(Todo todo) async {
+  Future<Result<void>> _saveTodo(
+    ({Todo todo, AnimatedListState? animatedList}) saveData,
+  ) async {
+    final (todo: todo, animatedList: animatedList) = saveData;
+    final todoIndex = todos.indexWhere((t) => t.id == todo.id);
     final result = await _todoRepository.saveTodo(todo);
     switch (result) {
       case Ok():
-        await _find();
+        if (todoIndex < 0) {
+          final index = _lastIndex() - 1;
+          animatedList?.insertItem(index);
+        } else {
+          notifyListeners();
+        }
       case Error():
         _log.warning('Erro ao criar tarefa error: ${result.error}');
+    }
+
+    return result;
+  }
+
+  Future<Result<void>> _deleteTodo(
+    ({
+      Todo todo,
+      AnimatedListState? animatedList,
+      Widget Function(BuildContext context, Animation<double> animation)
+      removedItemBuilder,
+    })
+    deleteData,
+  ) async {
+    final (
+      todo: todo,
+      animatedList: animatedList,
+      removedItemBuilder: removedItemBuilder,
+    ) = deleteData;
+    final index = _indexOf(todo);
+    animatedList?.removeItem(index, removedItemBuilder);
+    final result = await _todoRepository.delete(todo.id);
+    switch (result) {
+      case Ok():
+        print('Ok');
+      case Error():
+        _log.warning('Erro ao deletar tarefa error: ${result.error}');
     }
 
     return result;
@@ -55,4 +103,15 @@ class TodoViewModel extends ChangeNotifier {
     this.status = status;
     return _find();
   }
+
+  int _lastIndex() {
+    if (todos.isEmpty) {
+      return 0;
+    }
+    return todos.length;
+  }
+
+  int _indexOf(Todo todo) => todos.indexWhere(
+    (t) => t.id == todo.id,
+  );
 }

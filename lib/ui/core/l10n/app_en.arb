@@ -15,5 +15,13 @@
   "done": "done",
   "@done": {
     "description": "Done"
+  },
+  "save": "Save",
+  "@save": {
+    "description": "Save"
+  },
+  "enterTheTask": "Enter the task...",
+  "@enterTheTask": {
+    "description": "Enter the task..."
   }
 }

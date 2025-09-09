@@ -4,7 +4,7 @@
   "@todoList": {
     "description": "Nome do aplicativo"
   },
-    "all": "Todos",
+  "all": "Todos",
   "@all": {
     "description": "Todos"
   },
@@ -15,5 +15,13 @@
   "done": "Concluídas",
   "@done": {
     "description": "concluídas"
-  }
+  },
+  "save": "Salvar",
+  "@save": {
+    "description": "Salvar"
+  },
+  "enterTheTask": "Digite a tarefa...",
+  "@enterTheTask": {
+    "description": "Digite a tarefa..."
+  }  
 }

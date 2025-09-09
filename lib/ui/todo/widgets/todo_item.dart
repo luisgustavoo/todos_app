@@ -5,34 +5,50 @@ import 'package:todos_app/ui/core/themes/colors.dart';
 class TodoItem extends StatelessWidget {
   const TodoItem({
     required this.todo,
+    required this.animation,
     this.onChange,
+    this.onRemove,
     super.key,
   });
 
   final Todo todo;
   final void Function(Todo todo)? onChange;
+  final void Function(Todo todo)? onRemove;
+  final Animation<double> animation;
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      title: Text(
-        todo.description,
-        style: todo.isDone
-            ? const TextStyle(
-                decoration: TextDecoration.lineThrough,
-                decorationThickness: 2,
-                decorationColor: AppColors.grey3,
-                color: AppColors.grey3,
-              )
-            : null,
-      ),
-      leading: Checkbox(
-        value: todo.isDone,
-        onChanged: (value) {
-          onChange?.call(
-            todo.copyWith(isDone: value!),
-          );
-        },
+    return SizeTransition(
+      sizeFactor: animation,
+      child: ListTile(
+        title: Text(
+          todo.description,
+          style: todo.isDone
+              ? const TextStyle(
+                  decoration: TextDecoration.lineThrough,
+                  decorationThickness: 2,
+                  decorationColor: AppColors.grey3,
+                  color: AppColors.grey3,
+                )
+              : null,
+        ),
+        leading: Checkbox(
+          value: todo.isDone,
+          onChanged: (value) {
+            onChange?.call(
+              todo.copyWith(isDone: value!),
+            );
+          },
+        ),
+        trailing: IconButton(
+          onPressed: () {
+            onRemove?.call(todo);
+          },
+          icon: const Icon(
+            Icons.delete_outline,
+            color: Colors.red,
+          ),
+        ),
       ),
     );
   }

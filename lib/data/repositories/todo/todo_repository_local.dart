@@ -5,25 +5,49 @@ import 'package:todos_app/domain/models/todo.dart';
 import 'package:todos_app/ui/todo/view_models/todo_view_model.dart';
 import 'package:todos_app/utils/result.dart';
 
-@Injectable(as: TodoRepository)
+@Singleton(as: TodoRepository)
 class TodoRepositoryLocal implements TodoRepository {
   TodoRepositoryLocal({
     required LocalDataService localDataService,
-  }) : _localDataService = localDataService;
+  }) : _localDataService = localDataService {
+    find(TodoStatus.all);
+  }
 
   final LocalDataService _localDataService;
+
+  List<Todo> _cache = [];
+
+  @override
+  List<Todo> get todos => _cache;
+
   @override
   Future<Result<void>> saveTodo(Todo todo) {
+    final todoIndex = todos.indexWhere((t) => t.id == todo.id);
+    if (todoIndex >= 0) {
+      _cache[todoIndex] = todo;
+    } else {
+      _cache.add(todo);
+    }
     return _localDataService.saveTodo(todo);
   }
 
   @override
   Future<Result<void>> delete(String id) {
-    throw UnimplementedError();
+    _cache.removeWhere(
+      (todo) => todo.id == id,
+    );
+    return _localDataService.deleteTodo(id);
   }
 
   @override
-  Future<Result<List<Todo>>> find(TodoStatus status) {
-    return _localDataService.find(status);
+  Future<Result<List<Todo>>> find(TodoStatus status) async {
+    final result = await _localDataService.find(status);
+    switch (result) {
+      case Ok<List<Todo>>():
+        _cache = [...result.value];
+      case Error():
+      // Do nothing
+    }
+    return result;
   }
 }

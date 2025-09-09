@@ -42,6 +42,7 @@ abstract final class AppTheme {
     floatingActionButtonTheme: _floatingActionButtonTheme,
     segmentedButtonTheme: _segmentedButtonTheme,
     checkboxTheme: _checkboxTheme,
+    elevatedButtonTheme: _elevatedButtonTheme,
     scaffoldBackgroundColor: AppColors.primarySwatch[50],
   );
 
@@ -83,8 +84,25 @@ abstract final class AppTheme {
   static const _checkboxTheme = CheckboxThemeData(
     side: BorderSide(
       color: Colors.grey,
-
       width: 2,
+    ),
+  );
+  static final _elevatedButtonTheme = ElevatedButtonThemeData(
+    style: ButtonStyle(
+      foregroundColor: WidgetStateProperty.resolveWith(
+        (states) {
+          return Colors.white;
+        },
+      ),
+      backgroundColor: WidgetStateProperty.resolveWith(
+        (states) {
+          if (states.contains(WidgetState.pressed)) {
+            return AppColors.primaryColor.withAlpha(150);
+          }
+
+          return AppColors.primaryColor;
+        },
+      ),
     ),
   );
 }

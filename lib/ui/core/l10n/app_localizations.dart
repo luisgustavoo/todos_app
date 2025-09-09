@@ -121,6 +121,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'done'**
   String get done;
+
+  /// Save
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get save;
+
+  /// Enter the task...
+  ///
+  /// In en, this message translates to:
+  /// **'Enter the task...'**
+  String get enterTheTask;
 }
 
 class _AppLocalizationsDelegate

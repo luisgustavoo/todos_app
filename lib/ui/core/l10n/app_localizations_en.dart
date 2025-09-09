@@ -19,4 +19,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get done => 'done';
+
+  @override
+  String get save => 'Save';
+
+  @override
+  String get enterTheTask => 'Enter the task...';
 }

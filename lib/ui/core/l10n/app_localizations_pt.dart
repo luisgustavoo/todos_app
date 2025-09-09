@@ -19,4 +19,10 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get done => 'Concluídas';
+
+  @override
+  String get save => 'Salvar';
+
+  @override
+  String get enterTheTask => 'Digite a tarefa...';
 }

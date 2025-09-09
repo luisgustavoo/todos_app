@@ -19,7 +19,7 @@ class LocalDataService {
   Future<Result<void>> saveTodo(Todo todo) async {
     try {
       // await _sharedPreferences.clear();
-      // return Result.ok(null);
+      // return const Result.ok(null);
       final result = await find(TodoStatus.all);
 
       switch (result) {
@@ -89,5 +89,30 @@ class LocalDataService {
       TodoStatus.done => Result.ok(done),
       _ => Result.ok(todos),
     };
+  }
+
+  Future<Result<void>> deleteTodo(String id) async {
+    try {
+      final result = await find(TodoStatus.all);
+
+      switch (result) {
+        case Ok<List<Todo>>():
+          final todos = [...result.value];
+          final todoIndex = todos.indexWhere((t) => t.id == id);
+
+          if (todoIndex != -1) {
+            todos.removeAt(todoIndex);
+            await _sharedPreferences.setTodos(jsonEncode(todos));
+          }
+
+          return const Result.ok(null);
+
+        case Error():
+          return Result.error(result.error);
+      }
+    } on Exception catch (e) {
+      _log.warning('Erro ao criar todo $e');
+      return Result.error(e);
+    }
   }
 }

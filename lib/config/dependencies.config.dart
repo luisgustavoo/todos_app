@@ -39,7 +39,7 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i371.LocalDataService>(
       () => _i371.LocalDataService(gh<_i107.SharedPreferencesService>()),
     );
-    gh.factory<_i287.TodoRepository>(
+    gh.singleton<_i287.TodoRepository>(
       () => _i989.TodoRepositoryLocal(
         localDataService: gh<_i371.LocalDataService>(),
       ),
