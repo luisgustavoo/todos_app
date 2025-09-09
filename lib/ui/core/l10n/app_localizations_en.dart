@@ -25,4 +25,22 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get enterTheTask => 'Enter the task...';
+
+  @override
+  String get errorSavingTask => 'Error saving task.';
+
+  @override
+  String get errorUpdatingTask => 'Error updating task.';
+
+  @override
+  String get errorDeletingTask => 'Error deleting task.';
+
+  @override
+  String get noPendingTasks => 'No pending tasks.';
+
+  @override
+  String get noTasksCompleted => 'No tasks completed.';
+
+  @override
+  String get noTasksRegistered => 'No tasks registered.';
 }

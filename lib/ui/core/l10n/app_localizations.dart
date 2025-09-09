@@ -133,6 +133,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Enter the task...'**
   String get enterTheTask;
+
+  /// Error saving task.
+  ///
+  /// In en, this message translates to:
+  /// **'Error saving task.'**
+  String get errorSavingTask;
+
+  /// Error updating task.
+  ///
+  /// In en, this message translates to:
+  /// **'Error updating task.'**
+  String get errorUpdatingTask;
+
+  /// Error deleting task.
+  ///
+  /// In en, this message translates to:
+  /// **'Error deleting task.'**
+  String get errorDeletingTask;
+
+  /// No pending tasks.
+  ///
+  /// In en, this message translates to:
+  /// **'No pending tasks.'**
+  String get noPendingTasks;
+
+  /// No tasks completed.
+  ///
+  /// In en, this message translates to:
+  /// **'No tasks completed.'**
+  String get noTasksCompleted;
+
+  /// No tasks registered.
+  ///
+  /// In en, this message translates to:
+  /// **'No tasks registered.'**
+  String get noTasksRegistered;
 }
 
 class _AppLocalizationsDelegate

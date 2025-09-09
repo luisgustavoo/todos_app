@@ -25,4 +25,22 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get enterTheTask => 'Digite a tarefa...';
+
+  @override
+  String get errorSavingTask => 'Erro ao salvar tarefa.';
+
+  @override
+  String get errorUpdatingTask => 'Erro ao atualizar tarefa.';
+
+  @override
+  String get errorDeletingTask => 'Erro ao deletar tarefa.';
+
+  @override
+  String get noPendingTasks => 'Nenhuma tarefa pendente.';
+
+  @override
+  String get noTasksCompleted => 'Nenhuma tarefa concluída.';
+
+  @override
+  String get noTasksRegistered => 'Nenhuma tarefa cadastrada.';
 }

@@ -27,6 +27,28 @@ class _TodoScreenState extends State<TodoScreen> {
     super.initState();
     _viewModel = widget.todoViewModel;
     _listKey = GlobalKey<AnimatedListState>();
+    _viewModel.saveTodo.addListener(_onSave);
+    _viewModel.updateTodo.addListener(_onUpdate);
+    _viewModel.deleteTodo.addListener(_onUpdate);
+  }
+
+  @override
+  void didUpdateWidget(covariant TodoScreen oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    _viewModel.saveTodo.removeListener(_onSave);
+    _viewModel.saveTodo.addListener(_onSave);
+    _viewModel.updateTodo.removeListener(_onUpdate);
+    _viewModel.updateTodo.addListener(_onUpdate);
+    _viewModel.deleteTodo.removeListener(_onUpdate);
+    _viewModel.deleteTodo.addListener(_onUpdate);
+  }
+
+  @override
+  void dispose() {
+    _viewModel.saveTodo.removeListener(_onSave);
+    _viewModel.updateTodo.removeListener(_onUpdate);
+    _viewModel.deleteTodo.removeListener(_onUpdate);
+    super.dispose();
   }
 
   @override
@@ -80,6 +102,16 @@ class _TodoScreenState extends State<TodoScreen> {
               child: ListenableBuilder(
                 listenable: _viewModel,
                 builder: (context, child) {
+                  if (_viewModel.todos.isEmpty) {
+                    final text = switch (_viewModel.status) {
+                      TodoStatus.pending => context.l10n.noPendingTasks,
+                      TodoStatus.done => context.l10n.noTasksCompleted,
+                      _ => context.l10n.noTasksRegistered,
+                    };
+                    return Center(
+                      child: Text(text),
+                    );
+                  }
                   return AnimatedList(
                     key: _listKey,
                     initialItemCount: _viewModel.itemCount,
@@ -160,6 +192,51 @@ class _TodoScreenState extends State<TodoScreen> {
         (
           todo: Todo.create(description: description),
           animatedList: _animatedList,
+        ),
+      );
+    }
+  }
+
+  void _onSave() {
+    if (_viewModel.saveTodo.error) {
+      _viewModel.saveTodo.clearResult();
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            context.l10n.errorSavingTask,
+            style: const TextStyle(color: Colors.white),
+          ),
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
+  }
+
+  void _onUpdate() {
+    if (_viewModel.updateTodo.error) {
+      _viewModel.updateTodo.clearResult();
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            context.l10n.errorUpdatingTask,
+            style: const TextStyle(color: Colors.white),
+          ),
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
+  }
+
+  void _onDelete() {
+    if (_viewModel.deleteTodo.error) {
+      _viewModel.deleteTodo.clearResult();
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            context.l10n.errorDeletingTask,
+            style: const TextStyle(color: Colors.white),
+          ),
+          backgroundColor: Colors.red,
         ),
       );
     }

@@ -23,5 +23,29 @@
   "enterTheTask": "Enter the task...",
   "@enterTheTask": {
     "description": "Enter the task..."
+  },
+  "errorSavingTask": "Error saving task.",
+  "@errorSavingTask": {
+    "description": "Error saving task."
+  },
+  "errorUpdatingTask": "Error updating task.",
+  "@errorUpdatingTask": {
+    "description": "Error updating task."
+  },
+  "errorDeletingTask": "Error deleting task.",
+  "@errorDeletingTask": {
+    "description": "Error deleting task."
+  },
+  "noPendingTasks": "No pending tasks.",
+  "@noPendingTasks": {
+    "description": "No pending tasks."
+  },
+  "noTasksCompleted": "No tasks completed.",
+  "@noTasksCompleted": {
+    "description": "No tasks completed."
+  },
+  "noTasksRegistered": "No tasks registered.",
+  "@noTasksRegistered": {
+    "description": "No tasks registered."
   }
 }

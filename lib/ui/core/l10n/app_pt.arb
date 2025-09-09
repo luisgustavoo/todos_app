@@ -23,5 +23,29 @@
   "enterTheTask": "Digite a tarefa...",
   "@enterTheTask": {
     "description": "Digite a tarefa..."
+  },
+  "errorSavingTask": "Erro ao salvar tarefa.",
+  "@errorSavingTask": {
+    "description": "Erro ao salvar tarefa."
+  },
+  "errorUpdatingTask": "Erro ao atualizar tarefa.",
+  "@errorUpdatingTask": {
+    "description": "Erro ao atualizar tarefa."
+  },
+  "errorDeletingTask": "Erro ao deletar tarefa.",
+  "@errorDeletingTask": {
+    "description": "Erro ao deletar tarefa."
+  },
+  "noPendingTasks": "Nenhuma tarefa pendente.",
+  "@noPendingTasks": {
+    "description": "Nenhuma tarefa pendente."
+  },
+  "noTasksCompleted": "Nenhuma tarefa concluída.",
+  "@noTasksCompleted": {
+    "description": "Nenhuma tarefa concluída."
+  },
+    "noTasksRegistered": "Nenhuma tarefa cadastrada.",
+  "@noTasksRegistered": {
+    "description": "Nenhuma tarefa cadastrada."
   }  
 }

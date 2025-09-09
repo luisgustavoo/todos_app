@@ -100,7 +100,6 @@ class TodoViewModel extends ChangeNotifier {
       removedItemBuilder: removedItemBuilder,
     ) = deleteData;
     final index = _indexOf(todo);
-
     final result = await _todoRepository.delete(todo.id);
     switch (result) {
       case Ok():
