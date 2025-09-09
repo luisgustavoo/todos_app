@@ -92,14 +92,12 @@ class _TodoScreenState extends State<TodoScreen> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _saveTodo,
+        onPressed: () {
+          _openAddTodoSheet(context);
+        },
         child: const Icon(Icons.add),
       ),
     );
-  }
-
-  void _saveTodo() {
-    _openAddTodoSheet(context);
   }
 
   void _removeTodo(Todo todo) {
@@ -156,7 +154,7 @@ class _TodoScreenState extends State<TodoScreen> {
       ),
       builder: (_) => const TodoAdd(),
     );
-    await Future<void>.delayed(const Duration(milliseconds: 500));
+    await Future<void>.delayed(const Duration(milliseconds: 200));
     if (description != null && description.trim().isNotEmpty) {
       await _viewModel.saveTodo.execute(
         (

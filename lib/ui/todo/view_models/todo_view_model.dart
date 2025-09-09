@@ -73,7 +73,7 @@ class TodoViewModel extends ChangeNotifier {
     final result = await _todoRepository.saveTodo(todo);
     switch (result) {
       case Ok():
-        if (todoIndex < 0) {
+        if (todoIndex < 0 && status != TodoStatus.done) {
           final index = _lastIndex() - 1;
           animatedList?.insertItem(index);
         }
@@ -100,11 +100,11 @@ class TodoViewModel extends ChangeNotifier {
       removedItemBuilder: removedItemBuilder,
     ) = deleteData;
     final index = _indexOf(todo);
-    animatedList?.removeItem(index, removedItemBuilder);
+
     final result = await _todoRepository.delete(todo.id);
     switch (result) {
       case Ok():
-        await _find();
+        animatedList?.removeItem(index, removedItemBuilder);
       case Error():
         _log.warning('Erro ao deletar tarefa error: ${result.error}');
     }
@@ -119,13 +119,13 @@ class TodoViewModel extends ChangeNotifier {
       Widget Function(BuildContext context, Animation<double> animation)
       removedItemBuilder,
     })
-    updateTodo,
+    updateData,
   ) async {
     final (
       todo: todo,
       animatedList: animatedList,
       removedItemBuilder: removedItemBuilder,
-    ) = updateTodo;
+    ) = updateData;
     final result = await _todoRepository.saveTodo(todo);
     switch (result) {
       case Ok():
@@ -135,7 +135,7 @@ class TodoViewModel extends ChangeNotifier {
         }
         await _find();
       case Error():
-        _log.warning('Erro ao criar tarefa error: ${result.error}');
+        _log.warning('Erro ao atualizar tarefa error: ${result.error}');
     }
 
     return result;

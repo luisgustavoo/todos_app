@@ -27,22 +27,22 @@ class SharedPreferencesService {
 
   Future<Result<void>> setTodos(String value) async {
     try {
-      _log.finer('Adicionando tarefas');
+      _log.finer('Adicionando tarefas no SharedPreferences');
       await _sharedPreferences.setString(kTodosCollectionKey, value);
       return const Result.ok(null);
     } on Exception catch (e) {
-      _log.warning('Erro ao adicionar tarefas', e);
+      _log.warning('Erro ao adicionar tarefas no SharedPreferences', e);
       return Result.error(e);
     }
   }
 
   Future<Result<void>> clear() async {
     try {
-      _log.finer('Limpando tarefas');
+      _log.finer('Limpando tarefas no SharedPreferences');
       await _sharedPreferences.clear();
       return const Result.ok(null);
     } on Exception catch (e) {
-      _log.warning('Erro ao limpar tarefas', e);
+      _log.warning('Erro ao limpar tarefas no SharedPreferences', e);
       return Result.error(e);
     }
   }
