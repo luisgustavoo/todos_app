@@ -30,10 +30,12 @@ dev_dependencies:
   injectable_generator: ^2.8.1
   json_serializable: ^6.11.1
   flutter_launcher_icons: ^0.14.4
+  flutter_native_splash: ^2.4.6
   
 flutter:
   uses-material-design: true
   generate: true
   assets:
     - assets/icon/
+    - assets/splash/
     - lib/ui/core/l10n/
