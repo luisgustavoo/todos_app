@@ -18,8 +18,6 @@ class LocalDataService {
 
   Future<Result<void>> saveTodo(Todo todo) async {
     try {
-      // await _sharedPreferences.clear();
-      // return const Result.ok(null);
       final result = await find(TodoStatus.all);
 
       switch (result) {
