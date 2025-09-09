@@ -19,30 +19,14 @@ class TodoScreen extends StatefulWidget {
 }
 
 class _TodoScreenState extends State<TodoScreen> {
-  late final TodoViewModel viewModel;
-  late final GlobalKey<AnimatedListState> _listKey;
+  late final TodoViewModel _viewModel;
+  late GlobalKey<AnimatedListState> _listKey;
   AnimatedListState? get _animatedList => _listKey.currentState;
-  int initialItemCount = 0;
   @override
   void initState() {
     super.initState();
-    viewModel = widget.todoViewModel;
+    _viewModel = widget.todoViewModel;
     _listKey = GlobalKey<AnimatedListState>();
-    viewModel.saveTodo.addListener(_onSave);
-    initialItemCount = viewModel.todos.length;
-  }
-
-  @override
-  void didUpdateWidget(covariant TodoScreen oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    oldWidget.todoViewModel.saveTodo.removeListener(_onSave);
-    widget.todoViewModel.saveTodo.addListener(_onSave);
-  }
-
-  @override
-  void dispose() {
-    viewModel.saveTodo.removeListener(_onSave);
-    super.dispose();
   }
 
   @override
@@ -60,7 +44,7 @@ class _TodoScreenState extends State<TodoScreen> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             ListenableBuilder(
-              listenable: viewModel.toggleStatus,
+              listenable: _viewModel.toggleStatus,
               builder: (context, child) {
                 return SegmentedButton<TodoStatus>(
                   showSelectedIcon: false,
@@ -84,20 +68,21 @@ class _TodoScreenState extends State<TodoScreen> {
                       ),
                     ),
                   ],
-                  selected: <TodoStatus>{viewModel.status},
+                  selected: <TodoStatus>{_viewModel.status},
                   onSelectionChanged: (newSelection) {
-                    viewModel.toggleStatus.execute(newSelection.first);
+                    _listKey = GlobalKey<AnimatedListState>();
+                    _viewModel.toggleStatus.execute(newSelection.first);
                   },
                 );
               },
             ),
             Expanded(
               child: ListenableBuilder(
-                listenable: viewModel,
+                listenable: _viewModel,
                 builder: (context, child) {
                   return AnimatedList(
                     key: _listKey,
-                    initialItemCount: viewModel.todos.length,
+                    initialItemCount: _viewModel.itemCount,
                     itemBuilder: _buildItem,
                   );
                 },
@@ -118,7 +103,7 @@ class _TodoScreenState extends State<TodoScreen> {
   }
 
   void _removeTodo(Todo todo) {
-    viewModel.deleteTodo.execute((
+    _viewModel.deleteTodo.execute((
       todo: todo,
       animatedList: _animatedList,
       removedItemBuilder: (context, animation) {
@@ -144,13 +129,17 @@ class _TodoScreenState extends State<TodoScreen> {
     Animation<double> animation,
   ) {
     return TodoItem(
-      todo: viewModel.todos[index],
+      todo: _viewModel.todos[index],
+      isLast: _viewModel.todos[index] == _viewModel.todos.last,
       animation: animation,
       onChange: (todo) async {
-        await viewModel.saveTodo.execute(
+        await _viewModel.updateTodo.execute(
           (
             todo: todo,
             animatedList: _animatedList,
+            removedItemBuilder: (context, animation) {
+              return _buildRemovedItem(todo, context, animation);
+            },
           ),
         );
       },
@@ -169,7 +158,7 @@ class _TodoScreenState extends State<TodoScreen> {
     );
     await Future<void>.delayed(const Duration(milliseconds: 500));
     if (description != null && description.trim().isNotEmpty) {
-      await viewModel.saveTodo.execute(
+      await _viewModel.saveTodo.execute(
         (
           todo: Todo.create(description: description),
           animatedList: _animatedList,
@@ -177,58 +166,4 @@ class _TodoScreenState extends State<TodoScreen> {
       );
     }
   }
-
-  void _onSave() {
-    // if (viewModel.saveTodo.completed) {
-    //   _animatedList?.insertItem(0);
-    // }
-
-    // if (viewModel.saveTodo.error) {
-    //   viewModel.saveTodo.clearResult();
-    //   _animatedList?.removeItem(0, (context, animation) {
-    //     return _buildItem(context, index, animation)
-    //   },);
-    // }
-  }
 }
-
-// typedef _RemovedItemBuilder<T> =
-//     Widget Function(T item, BuildContext context, Animation<double> animation);
-
-// class _ListModel<E> {
-//   _ListModel({
-//     required this.listKey,
-//     required this.removedItemBuilder,
-//     Iterable<E>? initialItems,
-//   }) : _items = List<E>.from(initialItems ?? <E>[]);
-
-//   final GlobalKey<AnimatedListState> listKey;
-//   final _RemovedItemBuilder<E> removedItemBuilder;
-//   final List<E> _items;
-
-//   AnimatedListState? get _animatedList => listKey.currentState;
-
-//   void insert(int index, E item) {
-//     _items.insert(index, item);
-//     _animatedList!.insertItem(index);
-//   }
-
-//   E removeAt(int index) {
-//     final removedItem = _items.removeAt(index);
-//     if (removedItem != null) {
-//       _animatedList!.removeItem(index, (
-//         context,
-//         animation,
-//       ) {
-//         return removedItemBuilder(removedItem, context, animation);
-//       });
-//     }
-//     return removedItem;
-//   }
-
-//   int get length => _items.length;
-
-//   E operator [](int index) => _items[index];
-
-//   int indexOf(E item) => _items.indexOf(item);
-// }
