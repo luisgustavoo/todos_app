@@ -1,0 +1,19 @@
+{
+  "@@locale": "en",
+  "todoList": "To do List",
+  "@todoList": {
+    "description": "App name"
+  },
+  "all": "All",
+  "@all": {
+    "description": "All"
+  },
+  "pending": "pending",
+  "@pending": {
+    "description": "Pending"
+  },
+  "done": "done",
+  "@done": {
+    "description": "Done"
+  }
+}

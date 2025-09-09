@@ -1,0 +1,19 @@
+{
+  "@@locale": "pt",
+  "todoList": "Lista de Tarefas",
+  "@todoList": {
+    "description": "Nome do aplicativo"
+  },
+    "all": "Todos",
+  "@all": {
+    "description": "Todos"
+  },
+  "pending": "Pendentes",
+  "@pending": {
+    "description": "pendentes"
+  },
+  "done": "Concluídas",
+  "@done": {
+    "description": "concluídas"
+  }
+}
