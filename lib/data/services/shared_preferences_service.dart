@@ -1,4 +1,3 @@
-import 'package:flutter/widgets.dart';
 import 'package:injectable/injectable.dart';
 import 'package:logging/logging.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -11,7 +10,6 @@ class SharedPreferencesService {
 
   final SharedPreferences _sharedPreferences;
 
-  @visibleForTesting
   static const kTodosCollectionKey = '__todos_collection_key__';
   final _log = Logger('SharedPreferencesService');
 
@@ -36,14 +34,15 @@ class SharedPreferencesService {
     }
   }
 
-  Future<Result<void>> clear() async {
-    try {
-      _log.finer('Limpando tarefas no SharedPreferences');
-      await _sharedPreferences.clear();
-      return const Result.ok(null);
-    } on Exception catch (e) {
-      _log.warning('Erro ao limpar tarefas no SharedPreferences', e);
-      return Result.error(e);
-    }
-  }
+  // @visibleForTesting
+  // Future<Result<void>> clear() async {
+  //   try {
+  //     _log.finer('Limpando tarefas no SharedPreferences');
+  //     await _sharedPreferences.clear();
+  //     return const Result.ok(null);
+  //   } on Exception catch (e) {
+  //     _log.warning('Erro ao limpar tarefas no SharedPreferences', e);
+  //     return Result.error(e);
+  //   }
+  // }
 }
