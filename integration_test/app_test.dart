@@ -31,6 +31,10 @@ void main() {
     await tester.pumpAndSettle();
   }
 
+  BuildContext getContext(WidgetTester tester) {
+    return tester.element(find.byType(TodoScreen));
+  }
+
   setUp(
     () {
       goRouter = MockGoRouter();
