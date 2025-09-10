@@ -16,6 +16,7 @@ Future<void> testApp(
 
   await tester.pumpWidget(
     MaterialApp(
+      locale: const Locale('pt', 'BR'),
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
       theme: AppTheme.lightTheme,
