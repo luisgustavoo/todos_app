@@ -42,7 +42,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get noTasksCompleted => 'No tasks completed.';
 
   @override
-  String get noTasksRegistered => 'Nenhuma tarefa cadastrada.';
+  String get noTasksRegistered => 'No tasks registered.';
 
   @override
   String get weWereUnableToLoadYourTasks =>
