@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:todos_app/data/repositories/todo/todo_repository_local.dart';
@@ -12,6 +14,21 @@ import '../../../../testing/mocks.dart';
 void main() {
   late MockGoRouter goRouter;
   late TodoViewModel todoViewModel;
+
+  Future<void> addTodo(WidgetTester tester) async {
+    await tester.tap(find.byKey(const ValueKey('add-todo-button')));
+    await tester.pumpAndSettle();
+
+    final inputDescription = find.byKey(const ValueKey('input-description'));
+    final saveButton = find.byKey(const ValueKey('save-button'));
+
+    await tester.enterText(inputDescription, 'Task 1');
+    await tester.pumpAndSettle();
+
+    await tester.tap(saveButton);
+    await tester.pumpAndSettle();
+  }
+
   setUp(
     () {
       goRouter = MockGoRouter();
@@ -42,34 +59,36 @@ void main() {
     testWidgets('Deve cadastrar uma tarefa', (tester) async {
       await loadWidget(tester);
       await tester.pumpAndSettle();
-
-      await tester.tap(find.byKey(const ValueKey('add-todo-button')));
-      await tester.pumpAndSettle();
-
-      final inputDescription = find.byKey(const ValueKey('input-description'));
-      final saveButton = find.byKey(const ValueKey('save-button'));
-
-      await tester.enterText(inputDescription, 'Task 1');
-      await tester.pumpAndSettle();
-
-      await tester.tap(saveButton);
-      await tester.pumpAndSettle();
+      await addTodo(tester);
       expect(find.text('Task 1'), findsOneWidget);
     });
     testWidgets('Deve remover uma tarefa', (tester) async {
       await loadWidget(tester);
       await tester.pumpAndSettle();
-
-      await tester.tap(find.byKey(const ValueKey('add-todo-button')));
+      await addTodo(tester);
+      final deleteButton = find.byIcon(Icons.delete_outline);
+      await tester.tap(deleteButton);
       await tester.pumpAndSettle();
+      expect(find.text('Nenhuma tarefa cadastrada.'), findsOneWidget);
+    });
 
-      final inputDescription = find.byKey(const ValueKey('input-description'));
-      final saveButton = find.byKey(const ValueKey('save-button'));
-
-      await tester.enterText(inputDescription, 'Task 1');
+    testWidgets('Deve marcar uma tarefa como concluída', (tester) async {
+      await loadWidget(tester);
       await tester.pumpAndSettle();
-
-      await tester.tap(saveButton);
+      await addTodo(tester);
+      final checkButton = find.byType(Checkbox);
+      await tester.tap(checkButton);
+      await tester.pumpAndSettle();
+    });
+    testWidgets('Deve filtrar tarefas concluídas', (tester) async {
+      await loadWidget(tester);
+      await tester.pumpAndSettle();
+      await addTodo(tester);
+      final checkButton = find.byType(Checkbox);
+      await tester.tap(checkButton);
+      await tester.pumpAndSettle();
+      final doneButton = find.byKey(const Key('todo-done-button'));
+      await tester.tap(doneButton);
       await tester.pumpAndSettle();
       expect(find.text('Task 1'), findsOneWidget);
     });

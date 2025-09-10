@@ -107,6 +107,7 @@ class TodoViewModel extends ChangeNotifier {
     switch (result) {
       case Ok():
         animatedList?.removeItem(index, removedItemBuilder);
+        notifyListeners();
       case Error():
         _log.warning('Erro ao deletar tarefa error: ${result.error}');
         notifyListeners();

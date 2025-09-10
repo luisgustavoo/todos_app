@@ -7,6 +7,8 @@ import 'package:todos_app/ui/todo/widgets/todo_add.dart';
 import 'package:todos_app/ui/todo/widgets/todo_item.dart';
 
 const String addTodoButtonKey = 'add-todo-button';
+const String todoDoneButtonKey = 'todo-done-button';
+const String filterSegmentedKey = 'filter-segmented-button';
 
 class TodoScreen extends StatefulWidget {
   const TodoScreen({
@@ -75,6 +77,7 @@ class _TodoScreenState extends State<TodoScreen> {
               listenable: _viewModel.toggleStatus,
               builder: (context, child) {
                 return SegmentedButton<TodoStatus>(
+                  key: const Key('filter-segmented-button'),
                   showSelectedIcon: false,
                   segments: [
                     ButtonSegment(
@@ -92,6 +95,7 @@ class _TodoScreenState extends State<TodoScreen> {
                     ButtonSegment(
                       value: TodoStatus.done,
                       label: Text(
+                        key: const Key('todo-done-button'),
                         context.l10n.done,
                       ),
                     ),
