@@ -11,8 +11,8 @@ Future<void> testApp(
   Widget body, {
   GoRouter? goRouter,
 }) async {
-  tester.view.devicePixelRatio = 1.0;
-  await tester.binding.setSurfaceSize(const Size(1200, 800));
+  // tester.view.devicePixelRatio = 1.0;
+  // await tester.binding.setSurfaceSize(const Size(1200, 800));
 
   await tester.pumpWidget(
     MaterialApp(

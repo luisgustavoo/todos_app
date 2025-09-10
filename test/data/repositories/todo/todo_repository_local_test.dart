@@ -14,9 +14,9 @@ void main() {
 
   final kTodo = Todo.create(description: 'Task');
 
-  group('Todo repository local ...', () {
+  group('TodoRepositoryLocal CRUD operations', () {
     test(
-      'Deve salvar uma tarefa no SharedPreferences',
+      'should persist a new task in SharedPreferences and update the todos list',
       () async {
         final result = await todoRepositoryLocal.saveTodo(kTodo);
         expect(result, isA<Ok<void>>());
@@ -25,7 +25,7 @@ void main() {
       },
     );
     test(
-      'Deve salvar uma busca as tarefas no SharedPreferences',
+      'should retrieve all tasks and update the local list',
       () async {
         final result = await todoRepositoryLocal.find(TodoStatus.all);
         expect(result, isA<Ok<void>>());
@@ -34,7 +34,7 @@ void main() {
       },
     );
     test(
-      'Deve deletar uma  tarefas no SharedPreferences',
+      'should delete a task from SharedPreferences and remove it from the local list',
       () async {
         await todoRepositoryLocal.saveTodo(kTodo);
         final result = await todoRepositoryLocal.delete(kTodo.id);

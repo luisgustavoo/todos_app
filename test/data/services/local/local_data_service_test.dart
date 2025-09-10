@@ -15,16 +15,16 @@ void main() {
     localDataService = LocalDataService(fakeSharedPreferencesService);
   });
 
-  group('Local data service test ...', () {
+  group('LocalDataService SharedPreferences operations', () {
     test(
-      'Deve salvar tarefa no SharedPreferences',
+      'should persist new task in SharedPreferences',
       () async {
         final result = await localDataService.saveTodo(kTodo);
         expect(result, isA<Ok<void>>());
       },
     );
     test(
-      'Deve buscar as tarefa no SharedPreferences',
+      'should look for tasks in SharedPreferences',
       () async {
         final result = await localDataService.find(TodoStatus.all);
         expect(result, isA<Ok<void>>());
@@ -35,7 +35,7 @@ void main() {
       },
     );
     test(
-      'Deve deletar uma tarefa no SharedPreferences',
+      'should delete a task from SharedPreferences',
       () async {
         final result = await localDataService.deleteTodo(kTodo.id);
         expect(result, isA<Ok<void>>());
