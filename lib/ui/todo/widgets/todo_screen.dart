@@ -6,6 +6,8 @@ import 'package:todos_app/ui/todo/view_models/todo_view_model.dart';
 import 'package:todos_app/ui/todo/widgets/todo_add.dart';
 import 'package:todos_app/ui/todo/widgets/todo_item.dart';
 
+const String addTodoButtonKey = 'add-todo-button';
+
 class TodoScreen extends StatefulWidget {
   const TodoScreen({
     required this.todoViewModel,
@@ -128,6 +130,7 @@ class _TodoScreenState extends State<TodoScreen> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
+        key: const Key(addTodoButtonKey),
         onPressed: () {
           _openAddTodoSheet(context);
         },

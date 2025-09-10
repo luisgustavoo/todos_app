@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:todos_app/ui/core/l10n/l10n.dart';
 import 'package:todos_app/ui/core/themes/dimens.dart';
 
+const String inputDescriptionKey = 'input-description';
+const String saveButtonKey = 'save-button';
+
 class TodoAdd extends StatefulWidget {
   const TodoAdd({super.key});
 
@@ -37,6 +40,7 @@ class _TodoAddState extends State<TodoAdd> {
           mainAxisSize: MainAxisSize.min,
           children: [
             TextField(
+              key: const Key(inputDescriptionKey),
               controller: _controller,
               autofocus: true,
               decoration: InputDecoration(
@@ -45,6 +49,7 @@ class _TodoAddState extends State<TodoAdd> {
               onSubmitted: (_) => _save(),
             ),
             ElevatedButton(
+              key: const Key(saveButtonKey),
               onPressed: _save,
               child: Text(context.l10n.save),
             ),
