@@ -37,6 +37,7 @@ class TodoItem extends StatelessWidget {
                   : null,
             ),
             leading: Checkbox(
+              key: Key('checkbox-${todo.id}'),
               value: todo.isDone,
               onChanged: (value) {
                 onChange?.call(

@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:todos_app/data/repositories/todo/todo_repository_local.dart';
@@ -15,14 +13,17 @@ void main() {
   late MockGoRouter goRouter;
   late TodoViewModel todoViewModel;
 
-  Future<void> addTodo(WidgetTester tester) async {
+  Future<void> addTodo(
+    WidgetTester tester, {
+    String description = 'Task 1',
+  }) async {
     await tester.tap(find.byKey(const ValueKey('add-todo-button')));
     await tester.pumpAndSettle();
 
     final inputDescription = find.byKey(const ValueKey('input-description'));
     final saveButton = find.byKey(const ValueKey('save-button'));
 
-    await tester.enterText(inputDescription, 'Task 1');
+    await tester.enterText(inputDescription, description);
     await tester.pumpAndSettle();
 
     await tester.tap(saveButton);
@@ -89,6 +90,20 @@ void main() {
       await tester.pumpAndSettle();
       final doneButton = find.byKey(const Key('todo-done-button'));
       await tester.tap(doneButton);
+      await tester.pumpAndSettle();
+      expect(find.text('Task 1'), findsOneWidget);
+    });
+
+    testWidgets('Deve filtrar tarefas pendentes', (tester) async {
+      await loadWidget(tester);
+      await tester.pumpAndSettle();
+      await addTodo(tester);
+      await addTodo(tester, description: 'Task 2');
+      final checkButton = find.byType(Checkbox);
+      await tester.tap(checkButton.at(1));
+      await tester.pumpAndSettle();
+      final pendingButton = find.byKey(const Key('todo-pending-button'));
+      await tester.tap(pendingButton);
       await tester.pumpAndSettle();
       expect(find.text('Task 1'), findsOneWidget);
     });
