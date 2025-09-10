@@ -31,10 +31,7 @@ class _TodoAddState extends State<TodoAdd> {
     return Padding(
       padding: MediaQuery.of(context).viewInsets,
       child: Padding(
-        padding: EdgeInsets.symmetric(
-          vertical: dimens.paddingScreenVertical,
-          horizontal: dimens.paddingScreenHorizontal,
-        ),
+        padding: dimens.edgeInsetsScreenSymmetric,
         child: Column(
           spacing: 12,
           mainAxisSize: MainAxisSize.min,
