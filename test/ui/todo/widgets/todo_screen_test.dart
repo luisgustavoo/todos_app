@@ -61,7 +61,8 @@ void main() {
     ) async {
       await loadWidget(tester);
       await tester.pumpAndSettle();
-      expect(find.text('Nenhuma tarefa cadastrada.'), findsOneWidget);
+      final context = getContext(tester);
+      expect(find.text(context.l10n.noTasksRegistered), findsOneWidget);
     });
     testWidgets('should add a new task and display it in the list', (
       tester,
@@ -76,11 +77,12 @@ void main() {
     ) async {
       await loadWidget(tester);
       await tester.pumpAndSettle();
+      final context = getContext(tester);
       await addTodo(tester);
       final deleteButton = find.byIcon(Icons.delete_outline);
       await tester.tap(deleteButton);
       await tester.pumpAndSettle();
-      expect(find.text('Nenhuma tarefa cadastrada.'), findsOneWidget);
+      expect(find.text(context.l10n.noTasksRegistered), findsOneWidget);
     });
 
     testWidgets('should mark a task as completed when tapping the checkbox', (
